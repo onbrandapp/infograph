@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: Global reset for that clean Swiss feel */
+body {
+  background-color: #F5F5F7; /* Match your Swiss Off-White */
+  -webkit-font-smoothing: antialiased;
+}
