@@ -46,11 +46,11 @@ const SwissInfographic = ({ data = {} }) => {
     <div className="w-full max-w-[1400px] mx-auto">
 
       {/* TOOLBAR */}
-      <div className="flex justify-end mb-4 px-6">
+      <div className="flex justify-end mb-4 px-4 md:px-6">
         <button
           onClick={handleDownload}
           disabled={isDownloading}
-          className="flex items-center gap-2 bg-black text-white px-6 py-3 font-mono text-xs uppercase hover:bg-swiss-red transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 bg-black text-white px-6 py-3 font-mono text-xs uppercase hover:bg-swiss-red transition-colors disabled:opacity-50 w-full md:w-auto justify-center"
         >
           {isDownloading ? (
             <>
@@ -69,28 +69,28 @@ const SwissInfographic = ({ data = {} }) => {
       {/* CAPTURE ZONE */}
       <div
         id="infographic-capture"
-        className="w-full bg-swiss-offwhite p-8 font-sans text-swiss-black border-2 border-gray-100 shadow-2xl"
+        className="w-full bg-swiss-offwhite p-4 md:p-8 font-sans text-swiss-black border-2 border-gray-100 shadow-2xl"
       >
 
         {/* HEADER */}
         <header className="border-b-4 border-swiss-black pb-8 mb-8">
-
-          <div className="flex justify-between items-start gap-4">
-            <h1 className="text-5xl font-black tracking-tighter uppercase leading-none max-w-3xl">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+            <h1 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none max-w-3xl break-words">
               {safeTitle}
             </h1>
-            <div className="text-right min-w-fit">
+            <div className="text-left md:text-right min-w-fit mt-2 md:mt-0">
               <p className="font-mono text-xs tracking-widest uppercase opacity-60">Generated Report</p>
               <p className="font-mono text-xs mt-1 font-bold">{safeDate}</p>
             </div>
           </div>
         </header>
 
-        {/* MAIN CONTENT */}
-        <div className="flex flex-row items-stretch mt-8 border-t-4 border-black pt-8">
+        {/* MAIN CONTENT - RESPONSIVE LAYOUT CHANGE HERE */}
+        {/* Changed to flex-col for mobile, md:flex-row for desktop. Added gap instead of spacer div. */}
+        <div className="flex flex-col md:flex-row items-stretch mt-8 border-t-4 border-black pt-8 gap-8 md:gap-16">
 
           {/* LEFT COLUMN */}
-          <div className="w-[350px] shrink-0 flex flex-col gap-8">
+          <div className="w-full md:w-[350px] shrink-0 flex flex-col gap-8">
             <div
               className="border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-white"
               style={{ padding: '32px' }}
@@ -103,7 +103,7 @@ const SwissInfographic = ({ data = {} }) => {
               </p>
             </div>
 
-            <div className="flex flex-col gap-4 mt-6">
+            <div className="grid grid-cols-1 gap-4 mt-6">
               {safeStats.map((stat, i) => (
                 <div
                   key={i}
@@ -125,12 +125,9 @@ const SwissInfographic = ({ data = {} }) => {
             </div>
           </div>
 
-          {/* SPACER */}
-          <div className="w-16 shrink-0"></div>
-
           {/* RIGHT COLUMN */}
           <div
-            className="grow min-w-0 border-2 border-black flex flex-col relative bg-white"
+            className="w-full grow min-w-0 border-2 border-black flex flex-col relative bg-white"
             style={{ padding: '32px' }}
           >
             <div className="flex justify-between items-end mb-4 border-b-2 border-black pb-2 z-10 relative">
@@ -138,7 +135,7 @@ const SwissInfographic = ({ data = {} }) => {
               <span className="text-xs font-mono uppercase opacity-50">Figure 1.1</span>
             </div>
 
-            <div className="w-full h-[500px] relative overflow-hidden pt-8">
+            <div className="w-full h-[400px] md:h-[500px] relative overflow-hidden pt-8">
               <SwissChart data={safeChartData} />
             </div>
           </div>
@@ -146,7 +143,7 @@ const SwissInfographic = ({ data = {} }) => {
         </div>
 
         {/* FOOTER SECTION */}
-        <div className="w-full">
+        <div className="w-full mt-8">
           <CitationFooter
             references={safeReferences}
             date={safeDate}
