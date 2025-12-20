@@ -29,6 +29,9 @@ const SwissInfographic = ({ data = {} }) => {
           backgroundColor: '#F5F5F7',
           logging: false,
           useCORS: true,
+          // Fixing the capture size to prevent scrollbar capture
+          windowWidth: element.scrollWidth,
+          windowHeight: element.scrollHeight
         });
 
         const link = document.createElement('a');
@@ -67,30 +70,32 @@ const SwissInfographic = ({ data = {} }) => {
       </div>
 
       {/* CAPTURE ZONE */}
+      {/* Added overflow-hidden here to act as a master failsafe against horizontal scrolling */}
       <div
         id="infographic-capture"
-        className="w-full bg-swiss-offwhite p-4 md:p-8 font-sans text-swiss-black border-2 border-gray-100 shadow-2xl"
+        className="w-full bg-swiss-offwhite p-4 md:p-8 font-sans text-swiss-black border-2 border-gray-100 shadow-2xl overflow-hidden"
       >
 
         {/* HEADER */}
         <header className="border-b-4 border-swiss-black pb-8 mb-8">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-            <h1 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none max-w-3xl break-words">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-4">
+            <h1 className="text-3xl lg:text-5xl font-black tracking-tighter uppercase leading-none max-w-3xl break-words">
               {safeTitle}
             </h1>
-            <div className="text-left md:text-right min-w-fit mt-2 md:mt-0">
+            <div className="text-left lg:text-right min-w-fit mt-2 lg:mt-0">
               <p className="font-mono text-xs tracking-widest uppercase opacity-60">Generated Report</p>
               <p className="font-mono text-xs mt-1 font-bold">{safeDate}</p>
             </div>
           </div>
         </header>
 
-        {/* MAIN CONTENT - RESPONSIVE LAYOUT CHANGE HERE */}
-        {/* Changed to flex-col for mobile, md:flex-row for desktop. Added gap instead of spacer div. */}
-        <div className="flex flex-col md:flex-row items-stretch mt-8 border-t-4 border-black pt-8 gap-8 md:gap-16">
+        {/* MAIN CONTENT */}
+        {/* flex-col for mobile, lg:flex-row for desktop. lg:flex-nowrap ensures it stays in a row on big screens */}
+        <div className="flex flex-col lg:flex-row lg:flex-nowrap items-stretch mt-8 border-t-4 border-black pt-8 gap-8 lg:gap-16">
 
-          {/* LEFT COLUMN */}
-          <div className="w-full md:w-[350px] shrink-0 flex flex-col gap-8">
+          {/* LEFT COLUMN - SIDEBAR */}
+          {/* w-full on mobile, fixed 350px on desktop */}
+          <div className="w-full lg:w-[350px] shrink-0 flex flex-col gap-8">
             <div
               className="border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-white"
               style={{ padding: '32px' }}
@@ -125,7 +130,8 @@ const SwissInfographic = ({ data = {} }) => {
             </div>
           </div>
 
-          {/* RIGHT COLUMN */}
+          {/* RIGHT COLUMN - CHART */}
+          {/* grow takes remaining space, min-w-0 prevents flex items from overflowing */}
           <div
             className="w-full grow min-w-0 border-2 border-black flex flex-col relative bg-white"
             style={{ padding: '32px' }}
@@ -135,7 +141,7 @@ const SwissInfographic = ({ data = {} }) => {
               <span className="text-xs font-mono uppercase opacity-50">Figure 1.1</span>
             </div>
 
-            <div className="w-full h-[400px] md:h-[500px] relative overflow-hidden pt-8">
+            <div className="w-full h-[400px] lg:h-[500px] relative overflow-hidden pt-8">
               <SwissChart data={safeChartData} />
             </div>
           </div>
@@ -143,7 +149,8 @@ const SwissInfographic = ({ data = {} }) => {
         </div>
 
         {/* FOOTER SECTION */}
-        <div className="w-full mt-8">
+        {/* Added overflow-x-hidden and max-w-full to contain the QR code */}
+        <div className="w-full mt-8 overflow-x-hidden max-w-full">
           <CitationFooter
             references={safeReferences}
             date={safeDate}
