@@ -2,6 +2,9 @@ import React from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 
 const CitationFooter = ({ references = [], date = "", verifyUrl = "" }) => {
+  // Fallback: If URL is missing for any reason, point to the current page
+  const safeUrl = verifyUrl || window.location.href;
+
   return (
     // Main Footer Container with Top Border
     <div className="w-full border-t-4 border-black pt-6 mt-12 pb-4">
@@ -22,25 +25,23 @@ const CitationFooter = ({ references = [], date = "", verifyUrl = "" }) => {
             </ol>
           </div>
 
-          {/* Generated Date Line - Now safely stacked under references */}
+          {/* Generated Date Line */}
           <div className="border-t border-gray-200 pt-2 mt-2">
             <p className="font-mono text-[10px] uppercase opacity-50">
-              Generated: {date} | Engine: Google Gemini 1.5 Pro
+              Generated: {date} | Engine: Google Gemini 2.5 Flash
             </p>
           </div>
         </div>
 
-        {/* RIGHT ZONE: QR Code (Fixed width, never overlaps) */}
+        {/* RIGHT ZONE: QR Code */}
         <div className="flex flex-col items-end shrink-0">
           <div className="bg-white p-2 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]">
             <QRCodeCanvas
-              value={verifyUrl}
-              size={80}
-              level="H"
+              value={safeUrl}
+              size={100}      /* INCREASED: 80px -> 100px for readability */
+              level="M"       /* CHANGED: 'H' -> 'M' (Medium). Less dense, easier to scan */
               includeMargin={false}
-              imageSettings={{
-                excavate: true,
-              }}
+              /* REMOVED: imageSettings (This was creating the invisible hole) */
             />
           </div>
           <p className="text-[8px] font-mono uppercase tracking-widest mt-2 opacity-60">
